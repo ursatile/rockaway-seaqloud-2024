@@ -10,10 +10,10 @@ public interface IStatusReporter {
 }
 
 public class StatusReporter : IStatusReporter {
-	private static readonly Assembly assembly = Assembly.GetEntryAssembly()!; 
+	private static readonly Assembly assembly = Assembly.GetEntryAssembly()!;
 
 
-	public TimeSpan GetUptime() => DateTimeOffset.UtcNow - System.Diagnostics.Process.GetCurrentProcess().StartTime; 
+	public TimeSpan GetUptime() => DateTimeOffset.UtcNow - System.Diagnostics.Process.GetCurrentProcess().StartTime;
 
 	public ServerStatus GetStatus() => new() {
 		Assembly = assembly.FullName ?? "Assembly.GetEntryAssembly() returned null",

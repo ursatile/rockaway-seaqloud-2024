@@ -1,4 +1,4 @@
-﻿// ReSharper disable StringLiteralTypo
+// ReSharper disable StringLiteralTypo
 // ReSharper disable IdentifierTypo
 
 using Microsoft.EntityFrameworkCore;

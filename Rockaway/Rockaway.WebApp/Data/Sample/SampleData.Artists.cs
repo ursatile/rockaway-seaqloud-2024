@@ -213,7 +213,7 @@ public static partial class SampleData {
 		public static Artist DropTableArtists = new(
 			NextId,
 			"'; DROP TABLE Artists; --",
-			"; DROP TABLE Artists; -- is an avant-garde math rock band known for its complex rhythms and intricate guitar lines. Their sound is a meticulous blend of disjointed, polyrhythmic patterns and unexpected time signature changes, underpinned by a deep melodic base that belies the seeming chaos. The band's technique involves a mix of tapping, unusual chord progressions, and dynamic shifts that create an immersive and cerebral auditory experience. Each member brings a technical mastery of their instrument, whether it’s the syncopated drumming, the bass’s melodic counterpoints, or the dual guitars weaving dense sonic tapestries. Their live performances are intense, featuring a visually engaging setup that complements their meticulously structured music. This fusion of technical proficiency and expressive creativity sets ; DROP TABLE Artists; -- apart in the math rock scene.",
+			"; DROP TABLE Artists; -- is an avant-garde math rock band known for its complex rhythms and intricate guitar lines. Their sound is a meticulous blend of disjointed, polyrhythmic patterns and unexpected time signature changes.",
 			"drop-table-artists"
 		);
 
