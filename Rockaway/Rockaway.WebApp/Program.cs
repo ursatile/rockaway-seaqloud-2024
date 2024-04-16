@@ -9,6 +9,8 @@ var app = builder.Build();
 
 app.MapGet("/status", (IStatusReporter reporter) => reporter.GetStatus());
 
+app.MapGet("/uptime", (IStatusReporter reporter) => (long)reporter.GetUptime().TotalSeconds);
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
