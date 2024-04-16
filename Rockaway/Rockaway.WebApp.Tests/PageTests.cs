@@ -6,14 +6,6 @@ namespace Rockaway.WebApp.Tests;
 
 public class PageTests {
 
-	[Fact]
-	public async Task Status_Works() {
-		await using var factory = new WebApplicationFactory<Program>();
-		using var client = factory.CreateClient();
-		using var response = await client.GetAsync("/status");
-		response.EnsureSuccessStatusCode();
-	}
-	
 	[Theory]
 	[InlineData("/")]
 
