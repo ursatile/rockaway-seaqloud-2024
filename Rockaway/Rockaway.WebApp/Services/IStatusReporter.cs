@@ -5,8 +5,8 @@ namespace Rockaway.WebApp.Services;
 public interface IStatusReporter {
 	public ServerStatus GetStatus();
 
-	public TimeSpan GetUptime();
-	
+	public TimeSpan GetUptime() => TimeSpan.Zero;
+
 }
 
 public class StatusReporter : IStatusReporter {
