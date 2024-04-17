@@ -3,6 +3,10 @@ using Microsoft.AspNetCore.Hosting.Server.Features;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
+using OpenTelemetry.Logs;
+using OpenTelemetry.Metrics;
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
 using Rockaway.WebApp.Data;
 using Rockaway.WebApp.Hosting;
 using Rockaway.WebApp.Services;
@@ -45,6 +49,20 @@ builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true
 builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddSwaggerGen();
+
+const string OTEL_SERVICE_NAME = "rockaway-webapp";
+
+builder.Logging.AddOpenTelemetry(options =>
+	options
+		.SetResourceBuilder(ResourceBuilder.CreateDefault().AddService(OTEL_SERVICE_NAME))
+		.AddOtlpExporter()
+		.AddConsoleExporter());
+
+builder.Services.AddOpenTelemetry()
+	.ConfigureResource(resource => resource.AddService(OTEL_SERVICE_NAME))
+	.WithTracing(tracing => tracing.AddAspNetCoreInstrumentation().AddConsoleExporter().AddOtlpExporter())
+	.WithMetrics(metrics => metrics.AddAspNetCoreInstrumentation().AddConsoleExporter().AddOtlpExporter());
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -68,10 +86,9 @@ using (var scope = app.Services.CreateScope()) {
 	}
 }
 
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
+if (app.Environment.IsDevelopment()) {
+	app.UseSwagger();
+	app.UseSwaggerUI();
 };
 
 
