@@ -8,7 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddRazorPages();
 builder.Services.AddControllersWithViews();
-builder.Services.AddSingleton<IStatusReporter>(new StatusReporter());
+builder.Services.AddRockawayStatusReporter();
 
 var logger = CreateAdHocLogger<Program>();
 //logger.LogTrace("This is a TRACE message.");
