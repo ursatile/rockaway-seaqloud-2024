@@ -30,8 +30,6 @@ if (HostEnvironmentExtensions.UseSqlite(builder.Environment)) {
 } else {
 	logger.LogInformation("Using SQL Server database");
 	var connectionString = builder.Configuration.GetConnectionString("AZURE_SQL_CONNECTIONSTRING");
-	logger.LogInformation($"SQL Connection String: {connectionString}");
-	logger.LogInformation($"Reversed: {new string(connectionString.Reverse().ToArray())}");
 	builder.Services.AddDbContext<RockawayDbContext>(options => options.UseSqlServer(connectionString));
 }
 
