@@ -9,7 +9,7 @@ public class TicketOrderViewData(TicketOrder ticketOrder) {
 	public bool HasSupport { get; } = ticketOrder.Show.SupportSlots.Count > 0;
 
 	public string SupportArtistsText { get; }
-		= String.Join(" + ", ticketOrder.Show.SupportArtists.Select(a => a.Name)); 
+		= String.Join(" + ", ticketOrder.Show.SupportArtists.Select(a => a.Name));
 
 	public IEnumerable<TicketOrderItemViewData> Contents { get; }
 		= ticketOrder.Contents.Select(item => new TicketOrderItemViewData(item));

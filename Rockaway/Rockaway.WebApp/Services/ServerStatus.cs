@@ -1,4 +1,4 @@
-namespace Rockaway.WebApp.Services; 
+namespace Rockaway.WebApp.Services;
 
 public class ServerStatus {
 	public string Assembly { get; set; } = String.Empty;
