@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace Rockaway.WebApp.Areas.Admin.Pages {
-	public class IndexModel : PageModel {
-		public void OnGet() {
-		}
+namespace Rockaway.WebApp.Areas.Admin.Pages; 
+
+public class IndexModel : PageModel {
+	public void OnGet() {
 	}
 }
