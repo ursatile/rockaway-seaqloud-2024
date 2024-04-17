@@ -35,10 +35,16 @@ if (HostEnvironmentExtensions.UseSqlite(builder.Environment)) {
 
 var app = builder.Build();
 
-if (HostEnvironmentExtensions.UseSqlite(builder.Environment)) {
-	using var scope = app.Services.CreateScope();
+using (var scope = app.Services.CreateScope()) {
 	using var db = scope.ServiceProvider.GetService<RockawayDbContext>()!;
-	db.Database.EnsureCreated();
+	if (app.Environment.UseSqlite()) {
+		db.Database.EnsureCreated();
+	} else if (Boolean.TryParse(app.Configuration["apply-migrations"], out var applyMigrations) && applyMigrations) {
+		logger.LogInformation("apply-migrations=true was specified. Applying EF migrations and then exiting.");
+		db.Database.Migrate();
+		logger.LogInformation("EF database migrations applied successfully.");
+		Environment.Exit(0);
+	}
 }
 
 app.MapGet("/status", (IStatusReporter reporter) => reporter.GetStatus());
