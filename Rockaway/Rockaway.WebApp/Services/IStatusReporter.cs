@@ -23,13 +23,3 @@ public class StatusReporter : IStatusReporter {
 		UptimeString = GetUptime().ToString(@"hh\:mm\:ss")
 	};
 }
-
-//"142:28:46"
-
-public class ServerStatus {
-	public string Assembly { get; set; } = String.Empty;
-	public string Modified { get; set; } = String.Empty;
-	public string Hostname { get; set; } = String.Empty;
-	public string DateTime { get; set; } = String.Empty;
-	public string UptimeString { get; set; } = String.Empty;
-}

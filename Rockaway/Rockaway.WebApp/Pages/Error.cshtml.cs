@@ -1,5 +1,4 @@
 using System.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
 
 namespace Rockaway.WebApp.Pages;
 
@@ -8,13 +7,7 @@ namespace Rockaway.WebApp.Pages;
 public class ErrorModel : PageModel {
 	public string? RequestId { get; set; }
 
-	public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
-
-	private readonly ILogger<ErrorModel> logger;
-
-	public ErrorModel(ILogger<ErrorModel> logger) {
-		this.logger = logger;
-	}
+	public bool ShowRequestId => !String.IsNullOrEmpty(RequestId);
 
 	public void OnGet() {
 		RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier;

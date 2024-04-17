@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Hosting.Server.Features;
+using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
@@ -8,18 +10,17 @@ using Rockaway.WebApp.Services;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddRazorPages(options => options.Conventions.AuthorizeAreaFolder("admin", "/"));
+builder.Services.AddControllersWithViews(options => {
+	options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true;
+});
+builder.Services.AddSingleton<IStatusReporter>(new StatusReporter());
+builder.Services.AddSingleton<IClock>(SystemClock.Instance);
 
-builder.Services.AddControllersWithViews();
-builder.Services.AddRockawayStatusReporter();
-builder.Services.AddDefaultIdentity<IdentityUser>()
-	.AddEntityFrameworkStores<RockawayDbContext>();
+#if DEBUG && !NCRUNCH
+builder.Services.AddSassCompiler();
+#endif
+
 var logger = CreateAdHocLogger<Program>();
-//logger.LogTrace("This is a TRACE message.");
-//logger.LogDebug("This is a DEBUG message.");
-//logger.LogInformation("This is an INFORMATION message.");
-//logger.LogWarning("This is a WARNING message.");
-//logger.LogError("This is an ERROR message.");
-//logger.LogCritical("This is a CRITICAL message.");
 
 logger.LogInformation("Rockaway running in {environment} environment", builder.Environment.EnvironmentName);
 // A bug in .NET 8 means you can't call extension methods from Program.Main, otherwise
@@ -36,11 +37,23 @@ if (HostEnvironmentExtensions.UseSqlite(builder.Environment)) {
 	builder.Services.AddDbContext<RockawayDbContext>(options => options.UseSqlServer(connectionString));
 }
 
+builder.Services.AddDefaultIdentity<IdentityUser>().AddEntityFrameworkStores<RockawayDbContext>();
+
+builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
 var app = builder.Build();
+
+// Configure the HTTP request pipeline.
+if (app.Environment.IsProduction()) {
+	app.UseExceptionHandler("/Error");
+	app.UseHsts();
+} else {
+	app.UseDeveloperExceptionPage();
+}
 
 using (var scope = app.Services.CreateScope()) {
 	using var db = scope.ServiceProvider.GetService<RockawayDbContext>()!;
-	if (app.Environment.UseSqlite()) {
+	// ReSharper disable once InvokeAsExtensionMethod
+	if (HostEnvironmentExtensions.UseSqlite(app.Environment)) {
 		db.Database.EnsureCreated();
 	} else if (Boolean.TryParse(app.Configuration["apply-migrations"], out var applyMigrations) && applyMigrations) {
 		logger.LogInformation("apply-migrations=true was specified. Applying EF migrations and then exiting.");
@@ -50,8 +63,6 @@ using (var scope = app.Services.CreateScope()) {
 	}
 }
 
-app.MapGet("/status", (IStatusReporter reporter) => reporter.GetStatus());
-app.MapGet("/uptime", (IStatusReporter reporter) => (long) reporter.GetUptime().TotalSeconds);
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
@@ -61,15 +72,15 @@ app.UseRouting();
 app.UseAuthorization();
 
 app.MapRazorPages();
+app.MapGet("/status", (IStatusReporter reporter) => reporter.GetStatus());
+app.MapGet("/uptime", (IStatusReporter reporter) => (long) reporter.GetUptime().TotalSeconds);
 app.MapAreaControllerRoute(
 	name: "admin",
 	areaName: "Admin",
 	pattern: "Admin/{controller=Home}/{action=Index}/{id?}"
 ).RequireAuthorization();
 app.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
-
-
+app.MapControllers();
 app.Run();
 
-ILogger<T> CreateAdHocLogger<T>()
-		=> LoggerFactory.Create(lb => lb.AddConsole()).CreateLogger<T>();
+ILogger<T> CreateAdHocLogger<T>() => LoggerFactory.Create(lb => lb.AddConsole()).CreateLogger<T>();

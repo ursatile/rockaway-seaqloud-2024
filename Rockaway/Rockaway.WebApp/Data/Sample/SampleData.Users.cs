@@ -17,7 +17,7 @@ public static partial class SampleData {
 				PhoneNumberConfirmed = true,
 				SecurityStamp = Guid.NewGuid().ToString()
 			};
-			Admin.PasswordHash = hasher.HashPassword(Admin, "P@ssw0rd");
+			Admin.PasswordHash = hasher.HashPassword(Admin, "p@ssw0rd");
 		}
 		public static IdentityUser Admin { get; }
 	}

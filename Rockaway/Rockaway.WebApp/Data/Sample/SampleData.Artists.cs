@@ -210,20 +210,13 @@ public static partial class SampleData {
 			"silver-mountain-string-band"
 		);
 
-		public static Artist DropTableArtists = new(
-			NextId,
-			"'; DROP TABLE Artists; --",
-			"; DROP TABLE Artists; -- is an avant-garde math rock band known for its complex rhythms and intricate guitar lines. Their sound is a meticulous blend of disjointed, polyrhythmic patterns and unexpected time signature changes.",
-			"drop-table-artists"
-		);
-
 		public static IEnumerable<Artist> AllArtists = new[] {
 			AlterColumn, BodyBag, Coda, DevLeppard, Elektronika, ForEarTransform,
 			GarbageCollectors, HaskellsAngels, IronMedian, JavasCrypt, KillerBite,
 			LambdaOfGod, MottTheTuple, NullTerminatedStringBand, Overflow, PascalsWager,
 			QuantumGate, RunCmd, ScriptKiddies, Terrorform, Unicoder,
 			VirtualMachine, WebmasterOfPuppets, Xslte, Yamb, ZeroBasedIndex,
-			Ærbårn, DotDotDot, SilverMountainStringBand, DropTableArtists
+			Ærbårn, DotDotDot, SilverMountainStringBand
 		};
 	}
 }
