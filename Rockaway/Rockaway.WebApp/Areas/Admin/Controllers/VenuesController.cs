@@ -1,10 +1,12 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Rockaway.WebApp.Data;
 using Rockaway.WebApp.Data.Entities;
 
-namespace Rockaway.WebApp.Controllers;
+namespace Rockaway.WebApp.Areas.Admin.Controllers;
 
+[Area("admin")]
 public class VenuesController : Controller {
 	private readonly RockawayDbContext context;
 
@@ -14,7 +16,14 @@ public class VenuesController : Controller {
 
 	// GET: Venues
 	public async Task<IActionResult> Index() {
-		return View(await context.Venues.ToListAsync());
+		var venues = await context.Venues.ToListAsync();
+		//TODO: implement a security policy that isn't stupid!
+		var model = new VenueListViewModel(venues) {
+			AllowCreate = DateTime.Now.Second % 2 == 0,
+			AllowEdit = DateTime.Now.Second % 3 == 0,
+			AllowView = DateTime.Now.Second % 5 == 0
+		};
+		return View(model);
 	}
 
 	// GET: Venues/Details/5

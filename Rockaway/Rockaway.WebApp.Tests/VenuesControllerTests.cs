@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
-using Rockaway.WebApp.Controllers;
+using Rockaway.WebApp.Areas.Admin.Controllers;
 using Rockaway.WebApp.Data;
 using Rockaway.WebApp.Data.Entities;
 using Shouldly;

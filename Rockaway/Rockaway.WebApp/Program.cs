@@ -7,7 +7,8 @@ using Rockaway.WebApp.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddRazorPages();
+builder.Services.AddRazorPages(options => options.Conventions.AuthorizeAreaFolder("admin", "/"));
+
 builder.Services.AddControllersWithViews();
 builder.Services.AddRockawayStatusReporter();
 builder.Services.AddDefaultIdentity<IdentityUser>()
@@ -60,7 +61,13 @@ app.UseRouting();
 app.UseAuthorization();
 
 app.MapRazorPages();
+app.MapAreaControllerRoute(
+	name: "admin",
+	areaName: "Admin",
+	pattern: "Admin/{controller=Home}/{action=Index}/{id?}"
+).RequireAuthorization();
 app.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
+
 
 app.Run();
 
