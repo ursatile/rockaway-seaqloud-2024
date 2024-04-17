@@ -9,6 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rockaway.WebApp.Tests", "Ro
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{531B62C5-C64E-4A17-8E11-689DD4E8C542}"
 	ProjectSection(SolutionItems) = preProject
+		..\.editorconfig = ..\.editorconfig
 		..\.github\workflows\main_rockaway-seaqloud.yml = ..\.github\workflows\main_rockaway-seaqloud.yml
 	EndProjectSection
 EndProject
