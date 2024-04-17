@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 namespace Rockaway.WebApp.Data.Entities;
 
 public class Artist {
@@ -20,5 +22,6 @@ public class Artist {
 		this.Slug = slug;
 	}
 
+	[JsonIgnore]
 	public List<Show> HeadlineShows { get; set; } = [];
 }

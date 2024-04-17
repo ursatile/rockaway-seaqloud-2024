@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 namespace Rockaway.WebApp.Data.Entities;
 
 public class Venue {

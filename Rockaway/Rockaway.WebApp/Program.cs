@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Rockaway.WebApp.Data;
 using Rockaway.WebApp.Hosting;
 using Rockaway.WebApp.Services;
+using Rockaway.WebApp.Api;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -40,6 +41,10 @@ if (HostEnvironmentExtensions.UseSqlite(builder.Environment)) {
 builder.Services.AddDefaultIdentity<IdentityUser>().AddEntityFrameworkStores<RockawayDbContext>();
 
 builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
+
+builder.Services.AddEndpointsApiExplorer();
+
+builder.Services.AddSwaggerGen();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -63,6 +68,12 @@ using (var scope = app.Services.CreateScope()) {
 	}
 }
 
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+};
+
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
@@ -81,6 +92,8 @@ app.MapAreaControllerRoute(
 ).RequireAuthorization();
 app.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
 app.MapControllers();
+
+app.MapArtistEndpoints();
 app.Run();
 
 ILogger<T> CreateAdHocLogger<T>() => LoggerFactory.Create(lb => lb.AddConsole()).CreateLogger<T>();
