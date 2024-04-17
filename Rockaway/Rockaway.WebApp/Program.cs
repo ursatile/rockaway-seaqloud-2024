@@ -35,10 +35,10 @@ if (HostEnvironmentExtensions.UseSqlite(builder.Environment)) {
 
 var app = builder.Build();
 
-using (var scope = app.Services.CreateScope()) {
-	using (var db = scope.ServiceProvider.GetService<RockawayDbContext>()!) {
-		db.Database.EnsureCreated();
-	}
+if (HostEnvironmentExtensions.UseSqlite(builder.Environment)) {
+	using var scope = app.Services.CreateScope();
+	using var db = scope.ServiceProvider.GetService<RockawayDbContext>()!;
+	db.Database.EnsureCreated();
 }
 
 app.MapGet("/status", (IStatusReporter reporter) => reporter.GetStatus());
