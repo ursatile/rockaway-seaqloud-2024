@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Rockaway.WebApp.Data;
 using Rockaway.WebApp.Data.Entities;
 
-namespace Rockaway.WebApp.Controllers; 
+namespace Rockaway.WebApp.Controllers;
 
 public class VenuesController : Controller {
 	private readonly RockawayDbContext context;

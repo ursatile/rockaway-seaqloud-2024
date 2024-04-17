@@ -1,10 +1,12 @@
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Rockaway.WebApp.Data.Entities;
 using Rockaway.WebApp.Data.Sample;
 
 namespace Rockaway.WebApp.Data;
 
-public class RockawayDbContext : DbContext {
+public class RockawayDbContext : IdentityDbContext<IdentityUser> {
 	public RockawayDbContext(DbContextOptions<RockawayDbContext> options) : base(options) {
 
 	}
@@ -17,9 +19,9 @@ public class RockawayDbContext : DbContext {
 
 		// Override EF Core's default table naming (which pluralizes entity names)
 		// and use the same names as the C# classes instead
-		foreach (var entity in modelBuilder.Model.GetEntityTypes()) {
-			entity.SetTableName(entity.DisplayName());
-		}
+		var rockawayEntityNamespace = typeof(Artist).Namespace;
+		var rockawayEntities = modelBuilder.Model.GetEntityTypes().Where(e => e.ClrType.Namespace == rockawayEntityNamespace);
+		foreach (var entity in rockawayEntities) entity.SetTableName(entity.DisplayName());
 
 		modelBuilder.Entity<Artist>(entity => {
 			entity.HasIndex(artist => artist.Slug).IsUnique();
@@ -27,7 +29,9 @@ public class RockawayDbContext : DbContext {
 		modelBuilder.Entity<Venue>(entity => {
 			entity.HasIndex(venue => venue.Slug).IsUnique();
 		});
+
 		modelBuilder.Entity<Artist>().HasData(SampleData.Artists.AllArtists);
 		modelBuilder.Entity<Venue>().HasData(SampleData.Venues.AllVenues);
+		modelBuilder.Entity<IdentityUser>().HasData(SampleData.Users.Admin);
 	}
 }
