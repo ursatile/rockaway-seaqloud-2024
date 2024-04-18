@@ -10,7 +10,8 @@
 <p>@Model.ShowDate</p>
 <form method="post">
 
-	@(await Html.RenderComponentAsync<TicketPicker>(RenderMode.WebAssembly,
+	@(await Html.RenderComponentAsync<TicketPicker>(
+		RenderMode.WebAssembly,
 		new {
 			TicketTypes = Model.TicketTypes.Select(tt => new TicketPickerItem {
 				Id = tt.Id, Name = tt.Name, Price = tt.Price
