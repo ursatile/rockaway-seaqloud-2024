@@ -13,9 +13,7 @@
       "commandName": "Project",
       "launchBrowser": true,
 		"environmentVariables": {
-			"_NO_ASPNETCORE_ENVIRONMENT": "Production",
-			"_NO_apply-migrations": "true",
-			"_NO_ConnectionStrings:AZURE_SQL_CONNECTIONSTRING": "Data Source=rockaway-seaqloud-server.database.windows.net,1433;Initial Catalog=rockaway-seaqloud-database;User ID=rockaway-seaqloud-server-admin;Password=Ef4FtLXMxIJK$79h"
+			"ASPNETCORE_ENVIRONMENT": "Development"
 		},
       "dotnetRunMessages": true,
       "applicationUrl": "https://localhost:7047;http://localhost:5240"
