@@ -7,7 +7,7 @@
 <p>@Model.ShowDate</p>
 <form method="post">
 
-	@(await Html.RenderComponentAsync<TicketPicker>(RenderMode.Server,
+	@(await Html.RenderComponentAsync<TicketPicker>(RenderMode.ServerPrerendered,
 		new { TicketTypes = Model.TicketTypes, CultureName = Model.CultureName }))
 
 	<section class="row">
