@@ -1,8 +1,9 @@
-using Microsoft.AspNetCore.Hosting.Server;
-using Microsoft.AspNetCore.Hosting.Server.Features;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Data.Sqlite;
-using Microsoft.EntityFrameworkCore;
+using OpenTelemetry.Logs;
+using OpenTelemetry.Metrics;
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
 using Rockaway.WebApp.Data;
 using Rockaway.WebApp.Hosting;
 using Rockaway.WebApp.Services;
@@ -20,6 +21,9 @@ builder.Services.AddSingleton<IClock>(SystemClock.Instance);
 
 #if DEBUG && !NCRUNCH
 builder.Services.AddSassCompiler();
+
+ConfigureOpenTelemetry(builder);
+
 #endif
 
 var logger = CreateAdHocLogger<Program>();
@@ -108,3 +112,44 @@ app.MapRazorComponents<App>()
 app.Run();
 
 ILogger<T> CreateAdHocLogger<T>() => LoggerFactory.Create(lb => lb.AddConsole()).CreateLogger<T>();
+
+
+static IHostApplicationBuilder ConfigureOpenTelemetry(IHostApplicationBuilder builder)
+{
+	builder.Logging.AddOpenTelemetry(logging =>
+	{
+		logging.IncludeFormattedMessage = true;
+		logging.IncludeScopes = true;
+	});
+
+	builder.Services.AddOpenTelemetry()
+		.ConfigureResource(c => c.AddService("Rockaway"))
+		.WithMetrics(metrics =>
+		{
+			metrics
+				.AddHttpClientInstrumentation()
+				.AddRuntimeInstrumentation();
+		})
+		.WithTracing(tracing =>
+		{
+			if (builder.Environment.IsDevelopment())
+			{
+				// We want to view all traces in development
+				tracing.SetSampler(new AlwaysOnSampler());
+			}
+
+			tracing.AddHttpClientInstrumentation();
+		});
+
+	// Use the OTLP exporter if the endpoint is configured.
+	var useOtlpExporter = !string.IsNullOrWhiteSpace(builder.Configuration["OTEL_EXPORTER_OTLP_ENDPOINT"]);
+
+	if (useOtlpExporter)
+	{
+		builder.Services.Configure<OpenTelemetryLoggerOptions>(logging => logging.AddOtlpExporter());
+		builder.Services.ConfigureOpenTelemetryMeterProvider(metrics => metrics.AddOtlpExporter());
+		builder.Services.ConfigureOpenTelemetryTracerProvider(tracing => tracing.AddOtlpExporter());
+	}
+
+	return builder;
+}
