@@ -67,7 +67,8 @@ public class Venue {
 		   ??
 		   CultureInfo.InvariantCulture;
 
-	public string FormatPrice(decimal price) => price.ToString("C", Culture);
+	public string FormatPrice(decimal price)
+		=> price.ToString("C", Culture);
 
 	private IEnumerable<string?> AddressTokens => [Address, City, PostalCode];
 	public string FullAddress => String.Join(", ", AddressTokens.Where(s => !String.IsNullOrWhiteSpace(s)));

@@ -8,6 +8,8 @@ public class ShowViewData(Show show) {
 
 	public string VenueName { get; } = show.Venue.Name;
 
+	public string CultureName => show.Venue.CultureName;
+
 	public string VenueAddress { get; } = show.Venue.FullAddress;
 
 	public string HeadlineArtistName { get; } = show.HeadlineArtist.Name;
@@ -18,7 +20,8 @@ public class ShowViewData(Show show) {
 			.OrderBy(s => s.SlotNumber)
 			.Select(s => s.Artist.Name).ToList();
 
-	public List<TicketType> TicketTypes { get; } = show.TicketTypes;
+	public List<TicketTypeViewData> TicketTypes { get; }
+		= show.TicketTypes.Select(tt => new TicketTypeViewData(tt)).ToList();
 
 	public Dictionary<string, string> RouteData { get; } = show.RouteData;
 }
