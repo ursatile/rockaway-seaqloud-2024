@@ -6,24 +6,25 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 	</PropertyGroup>
 	<ItemGroup>
-		<InternalsVisibleTo Include="Rockaway.WebApp.Tests"/>
+		<InternalsVisibleTo Include="Rockaway.WebApp.Tests" />
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="AspNetCore.SassCompiler" Version="1.70.0"/>
-		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="8.0.4"/>
+		<PackageReference Include="AspNetCore.SassCompiler" Version="1.70.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="8.0.4" />
 
-		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.4"/>
-		<PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.4"/>
-		<PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.4"/>
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.4"/>
-		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.4"/>
+		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.4" />
+		<PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.4" />
+		<PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.4" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.4" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.4" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.4">
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 			<PrivateAssets>all</PrivateAssets>
 		</PackageReference>
-		<PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.2"/>
-		<PackageReference Include="NodaTime" Version="3.1.10"/>
-		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0"/>
+		<PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.2" />
+		<PackageReference Include="NodaTime" Version="3.1.10" />
+		<PackageReference Include="OpenTelemetry.Instrumentation.EntityFrameworkCore" Version="1.0.0-beta.11" />
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
 
 		<PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.8.0" />
 		<PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="1.8.0" />
@@ -31,9 +32,9 @@
 		<PackageReference Include="OpenTelemetry.Instrumentation.Runtime" Version="1.8.0" />
 	</ItemGroup>
 	<ItemGroup>
-		<Folder Include="Controllers\"/>
+		<Folder Include="Controllers\" />
 	</ItemGroup>
 	<ItemGroup>
-		<ProjectReference Include="..\Rockaway.RazorComponents\Rockaway.RazorComponents.csproj"/>
+		<ProjectReference Include="..\Rockaway.RazorComponents\Rockaway.RazorComponents.csproj" />
 	</ItemGroup>
 </Project>

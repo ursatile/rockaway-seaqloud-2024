@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Data.Sqlite;
 using OpenTelemetry.Logs;
@@ -139,6 +140,7 @@ static IHostApplicationBuilder ConfigureOpenTelemetry(IHostApplicationBuilder bu
 			}
 
 			tracing.AddHttpClientInstrumentation();
+			tracing.AddEntityFrameworkCoreInstrumentation();
 		});
 
 	// Use the OTLP exporter if the endpoint is configured.
