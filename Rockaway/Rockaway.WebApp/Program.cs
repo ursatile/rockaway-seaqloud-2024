@@ -48,7 +48,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddRazorComponents()
-	.AddInteractiveServerComponents();
+	.AddInteractiveServerComponents()
+	.AddInteractiveWebAssemblyComponents();
 
 var app = builder.Build();
 
@@ -101,7 +102,8 @@ app.MapControllers();
 app.MapArtistEndpoints();
 
 app.MapRazorComponents<App>()
-	.AddInteractiveServerRenderMode();
+	.AddInteractiveServerRenderMode()
+	.AddInteractiveWebAssemblyRenderMode();
 
 app.Run();
 
